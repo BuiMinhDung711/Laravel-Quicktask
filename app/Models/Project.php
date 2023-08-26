@@ -13,12 +13,6 @@ class Project extends Model
      *
      * @var array<int, string>
      */
-    protected $fillable = [
-        'name',
-        'start_day',
-        'end_day',
-        'note',
-        'result',
-    ];
+    protected $guarded = [];
     
 }
