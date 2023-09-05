@@ -18,7 +18,6 @@ return new class extends Migration
             $table->boolean('is_admin');
             $table->boolean('is_active');
             $table->dropColumn('name');
-
         });
     }
 
@@ -37,3 +36,4 @@ return new class extends Migration
         });
     }
 };
+
