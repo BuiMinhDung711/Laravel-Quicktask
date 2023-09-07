@@ -4,6 +4,13 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProjectController;
 use Illuminate\Support\Facades\Route;
 
+
+
+/**
+ * Fake login to test middleware CheckAdmin
+ */
+// Auth::loginUsingId(164);
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -19,31 +26,31 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-// 1. Write all the routes with routes name
-// Route::get('/users', [UserController::class, 'index'])->name('users.index');
-// Route::get('/users/create', [UserController::class, 'create'])->name('users.create');
+// // 1. Write all the routes with routes name
+// Route::get('/users', [UserController::class, 'index']);
+// Route::get('/users/create', [UserController::class, 'create'])
+//     ->name('users.create')
+//     ->middleware([
+//         'admin'
+//     ]);
 // Route::get('/users/{user}/edit', [UserController::class, 'edit'])->name('users.edit');
-// Route::get('/users/{user}', [UserController::class, 'show'])->name('users.show');
+// Route::get('/users/{user}', [UserController::class, 'show'])
+//     ->name('users.show')
+//     ->middleware([
+//         'admin'
+//     ]);
 // Route::post('/users/', [UserController::class, 'store'])->name('users.store');
 // Route::put('/users/{user}', [UserController::class, 'update'])->name('users.update');
 // Route::delete('/users/{user}', [UserController::class, 'delete'])->name('users.delete');
 
 
-Route::get('/projects', [ProjectController::class, 'index'])->name('projects.index');
-Route::get('/projects/create', [ProjectController::class, 'create'])->name('projects.create');
-Route::get('/projects/{project}/edit', [ProjectController::class, 'edit'])->name('projects.edit');
-Route::get('/projects/{project}', [ProjectController::class, 'show'])->name('projects.show');
-Route::post('/projects/', [ProjectController::class, 'store'])->name('projects.store');
-Route::put('/projects/{project}', [ProjectController::class, 'update'])->name('projects.update');
-Route::delete('/projects/{project}', [ProjectController::class, 'delete'])->name('projects.delete');
+// 2. Use resource routes (resource or resources keyword)
 
-// 2. Use resource routes
-
-// Route::resource('/users', UserController::class);
-
-// 3. Use resource(s) routes
-
-Route::resources([
-    '/users' => UserController::class,
-    '/projects' => ProjectController::class,
-]);
+Route::resource('/users', UserController::class)
+    ->middleware([
+        'admin',
+    ]);
+Route::resource('/projects', ProjectController::class)
+    ->middleware([
+        'admin',
+    ]);
