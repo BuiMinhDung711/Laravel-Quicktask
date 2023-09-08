@@ -1,0 +1,21 @@
+{
+  "name": "Laravel-Quicktask",
+  "description": "",
+  "main": "",
+  "authors": [
+    "bui-minh-dung <bui.minh.dung@sun-asterisk.com>"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/BuiMinhDung711/Laravel-Quicktask",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "template-bower-example": "manhtd-1083/template-bower-example",
+    "index-table": "https://github.com/leopesi/tabela-html/blob/master/index-table.html"
+  }
+}
