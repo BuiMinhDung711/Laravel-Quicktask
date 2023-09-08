@@ -24,6 +24,7 @@
                         <th class="text-gray-900 dark:text-gray-100" scope="col">{{__('End day')}}</th>
                         <th class="text-gray-900 dark:text-gray-100" scope="col">{{__('Note')}}</th>
                         <th class="text-gray-900 dark:text-gray-100" scope="col">{{__('Result')}}</th>
+                        <th class="text-gray-900 dark:text-gray-100" scope="col">{{__('Action')}}</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -35,6 +36,18 @@
                         <th class="text-center text-gray-900 dark:text-gray-100">{{ $project->end_day }}</th>
                         <th class="text-center text-gray-900 dark:text-gray-100">{{ $project->note }}</th>
                         <th class="text-center text-gray-900 dark:text-gray-100">{{ $project->result }}</th>
+                        <th class="text-center text-gray-900 dark:text-gray-100">
+                            <x-primary-button class="mt-4">
+                                {{__('Edit')}}
+                            </x-primary-button>
+                            <form action="{{ route('projects.destroy' ,['project' => $project->id]) }}" method="POST">
+                                @csrf
+                                @method('DELETE')
+                                <x-primary-button class="mt-4">
+                                    {{__('Delete')}}
+                                </x-primary-button>
+                            </form>
+                        </th>
                     </tr>
                     @endforeach
                 </tbody>

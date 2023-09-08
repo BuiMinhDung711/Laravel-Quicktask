@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
-use DB;
+use App\Http\Requests\User\StoreUserRequest;
+use App\Http\Requests\User\UpdateUserRequest;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
@@ -14,8 +16,13 @@ class UserController extends Controller
     public function index()
     {
         return view('users.index', [
-            'users' => User::all(),
+            'users' => User::with('projects')->get(),
         ]);
+
+        // Lazy eager loading
+        // return view('users.index', [
+        //     'users' => User::all()->load('projects'),
+        // ]);
     }
 
     /**
@@ -23,15 +30,27 @@ class UserController extends Controller
      */
     public function create()
     {
-        //
+        return view('users.create');
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreUserRequest $request)
     {
-        //
+        $validatedData = $request->validated();
+        User::unguard();
+        User::create([
+            'first_name' => $validatedData['first_name'],
+            'last_name' => $validatedData['last_name'],
+            'email' => $validatedData['email'],
+            'username' => $validatedData['username'],
+            'password' => Hash::make('alshjdkhfksjlfksdjfkhs'),
+            'is_admin' => false,
+            'is_active' => true,
+        ]);
+
+        return back();
     }
 
     /**
@@ -54,9 +73,15 @@ class UserController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, User $user)
+    public function update(UpdateUserRequest $request, User $user)
     {
-        $user->username = $request->username;
+        $validatedData = $request->validated();
+
+        $user->first_name = $validatedData['first_name'];
+        $user->last_name = $validatedData['last_name'];
+        $user->username = $validatedData['username'];
+        $user->email = $validatedData['email'];
+        
         $user->save();
 
         return back();
@@ -67,6 +92,7 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
-        //
+        $user->delete();
+        return back();
     }
 }
