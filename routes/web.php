@@ -1,15 +1,9 @@
 <?php
 
+use App\Http\Controllers\ProfileController;
+use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProjectController;
-use Illuminate\Support\Facades\Route;
-
-
-
-/**
- * Fake login to test middleware CheckAdmin
- */
-// Auth::loginUsingId(164);
 
 /*
 |--------------------------------------------------------------------------
@@ -26,25 +20,15 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-// // 1. Write all the routes with routes name
-// Route::get('/users', [UserController::class, 'index']);
-// Route::get('/users/create', [UserController::class, 'create'])
-//     ->name('users.create')
-//     ->middleware([
-//         'admin'
-//     ]);
-// Route::get('/users/{user}/edit', [UserController::class, 'edit'])->name('users.edit');
-// Route::get('/users/{user}', [UserController::class, 'show'])
-//     ->name('users.show')
-//     ->middleware([
-//         'admin'
-//     ]);
-// Route::post('/users/', [UserController::class, 'store'])->name('users.store');
-// Route::put('/users/{user}', [UserController::class, 'update'])->name('users.update');
-// Route::delete('/users/{user}', [UserController::class, 'delete'])->name('users.delete');
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware(['auth', 'verified'])->name('dashboard');
 
-
-// 2. Use resource routes (resource or resources keyword)
+Route::middleware('auth')->group(function () {
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+});
 
 Route::resource('/users', UserController::class)
     ->middleware([
@@ -54,3 +38,5 @@ Route::resource('/projects', ProjectController::class)
     ->middleware([
         'admin',
     ]);
+
+require __DIR__.'/auth.php';
