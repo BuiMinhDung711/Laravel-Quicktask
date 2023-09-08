@@ -18,9 +18,9 @@ class Localization
     public function handle(Request $request, Closure $next): Response
     {
         if (Session::get('lang')) {
-        if (Session::get('lang')) {
             App::setLocale(Session::get('lang'));
         }
 
         return $next($request);
+    }
 }
