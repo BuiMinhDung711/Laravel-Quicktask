@@ -12,15 +12,18 @@
                     {{ __('User list') }}
                 </div>
             </div>
+            <a href="{{route('users.create')}}">
             <x-primary-button class="mt-4">
                 {{__('Create new user')}}
             </x-primary-button>
+            </a>
             <table class="table">
                 <thead>
                     <tr>
                         <th class="text-gray-900 dark:text-gray-100" scope="col">#</th>
                         <th class="text-gray-900 dark:text-gray-100" scope="col">{{__('Name')}}</th>
                         <th class="text-gray-900 dark:text-gray-100" scope="col">{{__('User name')}}</th>
+                        <th class="text-gray-900 dark:text-gray-100" scope="col">{{__('Project')}}</th>
                         <th class="text-gray-900 dark:text-gray-100" scope="col">{{__('Action')}}</th>
                     </tr>
                 </thead>
@@ -31,18 +34,27 @@
                         <th class="text-center text-gray-900 dark:text-gray-100">{{ $user->fullname }}</th>
                         <th class="text-center text-gray-900 dark:text-gray-100">{{ $user->username }}</th>
                         <th class="text-center text-gray-900 dark:text-gray-100">
+                            @foreach($user->projects as $project)
+                            {{ __($project->name)}}
+                            @endforeach
+                        </th>
+                        <th class="text-center text-gray-900 dark:text-gray-100">
                             <a href="{{route('users.edit', ['user' =>  $user->id])}}">
                                 <x-primary-button class="mt-4">
                                     {{__('Edit')}}
                                 </x-primary-button>
                             </a>
-                            <x-primary-button class="mt-4">
-                                {{__('Delete')}}
-                            </x-primary-button>
+                            <form action="{{ route('users.destroy' ,['user' => $user->id]) }}" method="POST">
+                                @csrf
+                                @method('DELETE')
+                                <x-primary-button class="mt-4">
+                                    {{__('Delete')}}
+                                </x-primary-button>
+                            </form>
                             <a href="{{route('users.show', ['user' =>  $user])}}">
-                            <x-primary-button class="mt-4">
-                                {{__('View projects')}}
-                            </x-primary-button>
+                                <x-primary-button class="mt-4">
+                                    {{__('View projects')}}
+                                </x-primary-button>
                             </a>
                         </th>
                     </tr>
