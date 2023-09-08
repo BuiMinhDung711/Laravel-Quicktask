@@ -4,6 +4,7 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProjectController;
+use App\Http\Controllers\LanguageController;
 
 /*
 |--------------------------------------------------------------------------
@@ -30,13 +31,8 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-Route::resource('/users', UserController::class)
-    ->middleware([
-        'admin',
-    ]);
-Route::resource('/projects', ProjectController::class)
-    ->middleware([
-        'admin',
-    ]);
+Route::resource('/projects', ProjectController::class);
 
-require __DIR__.'/auth.php';
+Route::get('/language/{lang}', [LanguageController::class, 'changeLanguage'])->name('locale');
+
+require __DIR__ . '/auth.php';
