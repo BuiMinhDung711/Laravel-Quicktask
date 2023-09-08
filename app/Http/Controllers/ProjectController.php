@@ -12,7 +12,9 @@ class ProjectController extends Controller
      */
     public function index()
     {
-        return Project::all();
+        return view('projects.index', [
+            'projects' => Project::all(),
+        ]);
     }
 
     /**
